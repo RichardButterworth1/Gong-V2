@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: gong-api-service
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: GONG_CLIENT_ID
+        fromDatabase: false
+      - key: GONG_CLIENT_SECRET
+        fromDatabase: false
+      - key: REDIRECT_URI
+        fromDatabase: false
