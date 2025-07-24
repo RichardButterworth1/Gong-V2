@@ -18,15 +18,15 @@ gong_token = {
 # 1. OAuth Authorization Endpoint (redirect user to Gong auth page)
 @app.route("/auth")
 def authorize():
-    scopes = "api:calls:read api:calls:write api:users:read"  # scopes your app needs
-    auth_url = (
-        "https://app.gong.io/oauth2/authorize"
-        f"?client_id={GONG_CLIENT_ID}"
-        "&response_type=code"
-        f"&redirect_uri={REDIRECT_URI}"
-        f"&scope={scopes}"
-        "&state=xyz123"  # random state for security
-    )
+    scopes = "api:calls:read api:users:read"
+    params = {
+        "client_id":    GONG_CLIENT_ID,
+        "response_type": "code",
+        "redirect_uri":  REDIRECT_URI,
+        "scope":         scopes,
+        "state":         "xyz123",  # you can generate a random state per request
+    }
+    auth_url = "https://app.gong.io/oauth2/authorize?" + urlencode(params)
     return redirect(auth_url)
 
 # 2. OAuth Callback Endpoint (exchanges code for tokens)
